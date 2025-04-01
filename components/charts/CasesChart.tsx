@@ -8,9 +8,7 @@ import useMedia from 'use-media';
 
 function CasesChart() {
 
-    /* const [covidData] = useAtom(covidCasesDataFetched); */
     const [covidCases] = useAtom(casesData);
-    //const [totalCovidCasesPerDay, setTotalCovidCasesPerDay] = useAtom(casesData);
     const [lastApiUpdateDay] = useAtom(latestDay);
     const [isFetchingCasesData] = useAtom(isFetchingCasesDataAtom);
     const [dates, setDates] = useState<string[]>([]);
@@ -22,20 +20,17 @@ function CasesChart() {
     useEffect(() => {
         let totalCovidCasesPerDays: Cases = {};
         let arrSummedValuesPerDates: number[] = [];
-        //Compara se o primeiro elemento é um bojeto para passar pelo type e conseguir fazer o map do Object.keys
+        
         if(typeof covidCases[0] === 'object') {
-            //Código abaixo soma todos os casos totais das regiões (se existir mais de uma)
             const dates = Object.keys(covidCases?.[0]).map(date => date);
             const arrValuesPerDates = dates.map(date => covidCases.map(item => Number(item?.[date]?.total)));
             arrSummedValuesPerDates = arrValuesPerDates.map(item => item.reduce((acc, value) => acc + value, 0));
 
-             //recria objeto Cases type: {'2022-02-22': {new: 0, total: item.value}}
             dates.forEach(date => {
                 totalCovidCasesPerDays[date] = {new: '0', total: (arrSummedValuesPerDates[dates.indexOf(date)]).toString()};
             })
         }
-        //console.log("TOTALcovidCASESperDAYS", totalCovidCasesPerDays);
-
+        
         const setDataForChart = () => {
             let arrAux1 = [], arrAux2 = [];
             for(const key in totalCovidCasesPerDays) {
@@ -43,16 +38,12 @@ function CasesChart() {
                 const nextDate = new Date(casesDate.getTime() + 86400000);
                 const nextDateString = nextDate.toISOString().slice(0, 10);
                 
-                // Pegar valor total quando virar o mês e colocar no array
                 if(key.at(6) !== nextDateString.at(6)) {
-                    //console.log(`Data: ${key}`);
-                    //console.log("totalCovidCasesPerDaysTotal", totalCovidCasesPerDays[key]?.total);
                     arrAux1.push(key);
                     arrAux2.push(Number(totalCovidCasesPerDays[key].total));
 
                 }
             }
-            //Adding last month of api update | 2023-03-09
             arrAux1.push(lastApiUpdateDay);
             arrAux2.push(Number(totalCovidCasesPerDays[lastApiUpdateDay]?.total));
 
