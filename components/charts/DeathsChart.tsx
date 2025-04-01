@@ -29,8 +29,7 @@ function DeathsChart() {
                 const dates = Object.keys(arrCovidDeaths[0]).map(date => date);
                 const arrValuesPerDates = dates.map(date => arrCovidDeaths.map(item => Number(item?.[date]?.total)));
                 arrSummedValuesPerDates = arrValuesPerDates.map(item => item.reduce((acc, value) => acc + value, 0));
-                //console.log("arrSummedValuesPerDates", arrSummedValuesPerDates)
-    
+                
                 dates.forEach(date => {
                     totalCovidDeathsPerDays[date] = {new: '0', total: (arrSummedValuesPerDates[dates.indexOf(date)]).toString()};
                 })
@@ -54,16 +53,12 @@ function DeathsChart() {
                     const nextDate = new Date(casesDate.getTime() + 86400000);
                     const nextDateString = nextDate.toISOString().slice(0, 10);
                     
-                    // Pegar valor total quando virar o mês e colocar no array
                     if(key.at(6) !== nextDateString.at(6)) {
-                        /* console.log(`Data: ${key}`);
-                        console.log("CovidDeathsTotal", covidDeaths[key]?.total); */
                         arrAux1.push(key);
                         arrAux2.push(Number(covidDeaths[key]?.total));
 
                     }    
                 }
-                //Adding last month of api update | 2023-03-09
                 arrAux1.push(lastApiUpdateDay);
                 arrAux2.push(Number(covidDeaths[lastApiUpdateDay]?.total));
 
