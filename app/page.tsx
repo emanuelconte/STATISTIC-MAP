@@ -10,9 +10,11 @@ import { useGetCovidDeathsData } from "@/hooks/useGetCovidDeathsData";
 const DynamicMap = dynamic(() => import('../components/map/Map'), {
   ssr: false
 });
+
 const CasesChart = dynamic(() => import('../components/charts/CasesChart'), {
   ssr: false
 });
+
 const DeathsChart = dynamic(() => import('../components/charts/DeathsChart'), {
   ssr: false
 });
@@ -74,25 +76,22 @@ export default function Home() {
     if(covidCasesData){
       let casesRegions: Cases[] = [];
       let cases: CaseData[] = Object.keys(covidCasesData).reduce((acc: CaseData[], key: string) => {
-        const caseData = covidCasesData[parseInt(key)]?.cases; // Acessa os casos do objeto
+        const caseData = covidCasesData[parseInt(key)]?.cases;
         
         casesRegions.push(caseData);
         if(caseData) {
           Object.keys(caseData).forEach(date => {
             if(date === lastApiUpdateDay) {
-              acc.push(caseData[date]); // Adiciona o total de casos do útlinmo dia do mês ao acumulador
+              acc.push(caseData[date]);
             }
           });
         }
-        return acc; // Retorna o acumulador
+        return acc;
       }, []);
       setCovidCases(casesRegions);
 
       let total: string = cases.reduce((acc: number, item) => acc + parseInt(item.total), 0).toString(); 
       setLatestTotalApiData(total);
-
-      /* console.log("Cases", cases);
-      console.log(total); */
     }
   }, [covidCasesData, lastApiUpdateDay, setCovidCases, setLatestTotalApiData])
 
