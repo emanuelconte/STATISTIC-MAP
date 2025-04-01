@@ -1,6 +1,7 @@
 export interface CasesDataFetched {
     cases: Cases
 }
+
 export interface Cases {
     [date: string]: CaseData
 }
