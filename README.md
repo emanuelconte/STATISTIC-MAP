@@ -34,7 +34,7 @@ Through this project, I gained hands-on experience with:
 
 ## Live Demo  
 
-🔗 [Project Demo Link]() *(Coming soon)*  
+🔗 [Project Demo Link](https://statistic-map.vercel.app/)
 
 ---
 
