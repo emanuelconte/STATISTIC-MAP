@@ -4,9 +4,8 @@ import { useAtom } from 'jotai';
 import { latAtom, lngAtom, isMapClickedAtom, countryName } from '@/utils/stores/atoms';
 import 'leaflet/dist/leaflet.css'; 
 import { useEffect, useState } from 'react';
-import { GeoJSONFeature, FeatureProperties } from '../../utils/types/types';
+import { GeoJSONFeature } from '../../utils/types/types';
 import { Layer, PathOptions } from 'leaflet';
-import { FiSearch } from "react-icons/fi";
 
 
 function Map() {
@@ -30,7 +29,7 @@ function Map() {
     const onEachFeature = (feature: GeoJSONFeature, layer: Layer) => {
         if (feature.properties && feature.properties.name) {
             layer.bindTooltip(feature.properties.name, {
-                permanent: false, // O tooltip aparece apenas quando o usuário passa o mouse
+                permanent: false,
                 direction: 'auto',
             });
         }
